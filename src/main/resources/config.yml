@@ -1,0 +1,6 @@
+plugin:
+  name: "QQ机器人统一抽象接口层"
+  description: "该插件提供qq机器人所需的大部分事件及消息实现所需接口，以便统一开发插件"
+  author: "一只大猫条"
+
+  mainClass: "org.catcat.sereinfish.qqbot.universal.abstraction.layer.PluginMain"
