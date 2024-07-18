@@ -1,6 +1,8 @@
 package org.catcat.sereinfish.qqbot.universal.abstraction.layer.message
 
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.element.*
+import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.forward.ForwardMessageFactory
+import org.catcat.sereinfish.qqbot.universal.abstraction.layer.utils.UniversalId
 
 /**
  * 消息构建器
@@ -10,15 +12,17 @@ interface MessageFactory {
     /**
      * 实例化消息对象
      */
-    fun at(target: Long): At
+    fun at(target: UniversalId): At
 
     fun atAll(): AtAll
 
     fun text(text: String): PlantText
 
-    fun face(id: Int): Face
+    fun face(id: UniversalId): Face
 
-    fun reply(messageId: Int): Reply
+    fun reply(messageId: UniversalId): Reply
+
+    fun forward(): ForwardMessageFactory
 
     /**
      * 添加消息元素

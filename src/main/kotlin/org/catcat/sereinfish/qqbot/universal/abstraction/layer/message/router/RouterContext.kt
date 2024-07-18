@@ -4,15 +4,12 @@ import org.catcat.sereinfish.qqbot.universal.abstraction.layer.events.message.Me
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.DefaultMessageChain
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.Message
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.MessageChain
-import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.MessageContent
 import org.sereinfish.cat.frame.context.Context
 import org.sereinfish.cat.frame.context.TypeParser
 import org.sereinfish.cat.frame.context.property.value
-import org.sereinfish.cat.frame.context.property.valueOrElse
 import org.sereinfish.cat.frame.context.property.valueOrPut
 import java.util.Vector
 import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.LinkedBlockingQueue
 
 /**
  * 路由上下文
@@ -35,22 +32,33 @@ class RouterContext(
     /**
      * 用来临时保存消息元素可以用作消息匹配
      */
-    var tempMessage by valueOrPut { Vector<Message>() }
+    var waitHandleMessages by valueOrPut { Vector<Message>() }
 
     /**
      * 用来保存已处理的消息元素
      */
-    val tempHandleMessage by valueOrPut { ArrayList<Message>() }
+    val handledMessages by valueOrPut { ArrayList<Message>() }
 
+    /**
+     * 初始化路由上下文
+     */
     init {
         data["event"] = event
-        message.filterIsInstance<MessageContent>().forEach {
-            tempMessage.add(it)
+
+//        message.filterIsInstance<MessageContent>().forEach {
+//            tempMessage.add(it)
+//        }
+
+        message.forEach {
+            waitHandleMessages.add(it)
         }
     }
 
+    /**
+     * 获取匹配参数消息链
+     */
     fun getParamMessageChain(): MessageChain = DefaultMessageChain().apply {
-        tempHandleMessage.forEach {
+        handledMessages.forEach {
             add(it)
         }
     }
@@ -66,6 +74,9 @@ class RouterContext(
         }
     }
 
+    /**
+     * 将当前上下文合并到指定上下文
+     */
     fun mergeTo(context: Context){
         data.forEach { (s, any) ->
             if (mergeBlackList.contains(s).not()){
@@ -81,10 +92,10 @@ class RouterContext(
         val context = RouterContext(event)
         context.data.putAll(data)
         context["tempMessage"] = Vector<Message>().apply {
-            addAll(tempMessage)
+            addAll(waitHandleMessages)
         }
         context["tempHandleMessage"] = ArrayList<Message>().apply {
-            addAll(tempHandleMessage)
+            addAll(handledMessages)
         }
 
         return context

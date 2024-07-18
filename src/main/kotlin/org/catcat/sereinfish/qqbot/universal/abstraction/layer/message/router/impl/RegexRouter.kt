@@ -3,6 +3,7 @@ package org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.i
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.element.PlantText
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.MessageRouter
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.RouterContext
+import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.parser.MessageRouterEncode
 
 /**
  * 正则匹配
@@ -11,13 +12,23 @@ class RegexRouter(
     val regex: Regex,
     val isGreedyMatch: Boolean = true
 ): MessageRouter {
+    companion object: MessageRouterEncode<RegexRouter> {
+        override val target: String = "regex"
+        override fun decode(vararg params: Any?): RegexRouter {
+            val regexString = (params[0] as? String) ?: error("无法获取正则参数：$params")
+            val isGreedyMatch = (params.getOrNull(1) as? Boolean) ?: true
+
+            return RegexRouter(regexString.toRegex(), isGreedyMatch)
+        }
+    }
+
     override fun parser(context: RouterContext): Boolean {
         // 读取字符串
         // 尝试整合多个文本元素
         var i = 0
 
         val textMessage = buildString {
-            for (element in context.tempMessage){
+            for (element in context.waitHandleMessages){
                 if (element is PlantText) {
                     append(element.text)
                     i++
@@ -38,8 +49,8 @@ class RegexRouter(
         if (matchStr.isEmpty()) return false
 
         return if (matchStr == textMessage){
-            context.tempHandleMessage.addAll(context.tempMessage.subList(0, i))
-            context.tempMessage.subList(0, i).clear()
+            context.handledMessages.addAll(context.waitHandleMessages.subList(0, i))
+            context.waitHandleMessages.subList(0, i).clear()
             true
         }else if (textMessage.startsWith(matchStr)){
             val str = textMessage.removePrefix(matchStr)
@@ -49,15 +60,19 @@ class RegexRouter(
                     error("该元素为临时消息元素，无法完成序列化")
                 }
             }
-            context.tempHandleMessage.add(object : PlantText {
+            context.handledMessages.add(object : PlantText {
                 override val text: String = matchStr
                 override fun encode(): Any {
                     error("该元素为临时消息元素，无法完成序列化")
                 }
             })
-            context.tempMessage.subList(0, i).clear()
-            context.tempMessage.insertElementAt(pt, 0)
+            context.waitHandleMessages.subList(0, i).clear()
+            context.waitHandleMessages.insertElementAt(pt, 0)
             true
         }else false
+    }
+
+    override fun encode(): String {
+        return "[$target:$regex]"
     }
 }

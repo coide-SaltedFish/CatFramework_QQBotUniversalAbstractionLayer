@@ -18,6 +18,6 @@ interface Forward: MessageContent {
     }
 
     interface Node {
-        val message: MessageChain
+        val message: Message
     }
 }

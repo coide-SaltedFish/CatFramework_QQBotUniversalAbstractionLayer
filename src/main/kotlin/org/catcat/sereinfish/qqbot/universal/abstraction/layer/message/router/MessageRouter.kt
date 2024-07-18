@@ -12,13 +12,13 @@ interface MessageRouter {
      */
     fun match(context: RouterContext): Boolean {
         val parserContext = context.clone()
-        parserContext.tempHandleMessage.clear()
+        parserContext.handledMessages.clear()
 
         val ret = parser(parserContext)
         if (ret) {
             context.merge(parserContext)
-            context.tempMessage = parserContext.tempMessage
-            context.tempHandleMessage.addAll(parserContext.tempHandleMessage)
+            context.waitHandleMessages = parserContext.waitHandleMessages
+            context.handledMessages.addAll(parserContext.handledMessages)
         }
         return ret
     }
@@ -29,4 +29,10 @@ interface MessageRouter {
      * @return 解析成功返回 true，失败返回 false
      */
     fun parser(context: RouterContext): Boolean
+
+
+    /**
+     * 将路由编码为字符串
+     */
+    fun encode(): String
 }

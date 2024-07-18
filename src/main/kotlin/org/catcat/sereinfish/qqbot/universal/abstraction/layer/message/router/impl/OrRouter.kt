@@ -2,6 +2,8 @@ package org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.i
 
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.MessageRouter
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.RouterContext
+import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.parser.MessageRouterEncode
+import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.utils.tryMatch
 
 /**
  * 或路由
@@ -9,18 +11,42 @@ import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.Ro
 class OrRouter(
     val routers: List<MessageRouter>
 ): MessageRouter {
-    override fun parser(context: RouterContext): Boolean {
-        for (router in routers) {
-            val childContext = context.clone()
-            childContext.tempHandleMessage.clear()
+    companion object: MessageRouterEncode<OrRouter> {
+        override val target: String = "or"
 
-            if (router.match(childContext)) {
-                context.merge(childContext)
-                context.tempMessage = childContext.tempMessage
-                context.tempHandleMessage.addAll(childContext.tempHandleMessage)
-                return true
+        override fun decode(vararg params: Any?): OrRouter {
+            val routers = params.map {
+                (it as? MessageRouter) ?: error("Or路由只能接受MessageRouter参数：${it?.let { it::class.java }}")
+            }
+            return OrRouter(routers)
+        }
+    }
+
+//    override fun parser(context: RouterContext): Boolean {
+//        for (router in routers) {
+//            val childContext = context.clone()
+//            childContext.handledMessages.clear()
+//
+//            if (router.match(childContext)) {
+//                context.merge(childContext)
+//                context.waitHandleMessages = childContext.waitHandleMessages
+//                context.handledMessages.addAll(childContext.handledMessages)
+//                return true
+//            }
+//        }
+//        return false
+//    }
+
+    override fun parser(context: RouterContext): Boolean = tryMatch(context) {
+        for (router in routers) {
+            if (matchTry { router.match(tryMatchContext) }) {
+                return@tryMatch true
             }
         }
-        return false
+        false
+    }
+
+    override fun encode(): String {
+        return "[$target:${routers.joinToString(",") { it.encode() }}]"
     }
 }

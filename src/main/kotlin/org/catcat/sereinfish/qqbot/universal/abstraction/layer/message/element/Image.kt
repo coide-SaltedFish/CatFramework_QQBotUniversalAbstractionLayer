@@ -2,6 +2,7 @@ package org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.element
 
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.Message
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.MessageContent
+import org.catcat.sereinfish.qqbot.universal.abstraction.layer.utils.UniversalId
 
 /**
  * 图片消息元素
@@ -11,7 +12,7 @@ interface Image: MessageContent {
     /**
      * 图片id，计算图片md5获取或者提供图片链接提取
      */
-    val id: String
+    val id: UniversalId
 
     override val content: String get() = "[Image:$id]"
 

@@ -1,7 +1,5 @@
 package org.catcat.sereinfish.qqbot.universal.abstraction.layer.contact
 
-import org.catcat.sereinfish.qqbot.universal.abstraction.layer.Bot
-
 /**
  * 成员
  * 一般指群成员
@@ -61,7 +59,7 @@ interface Member: User {
      *
      * @throws Exception 无权限则抛出异常 TODO 添加专用异常类型
      *
-     * @param allowRejoinAfterKickout 是否允许再次申请加群
+     * @param allowRejoinAfterKickOut 是否允许再次申请加群
      */
-    suspend fun kick(allowRejoinAfterKickout: Boolean = false): Boolean
+    suspend fun kick(allowRejoinAfterKickOut: Boolean = false): Boolean
 }

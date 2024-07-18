@@ -1,6 +1,7 @@
 package org.catcat.sereinfish.qqbot.universal.abstraction.layer.contact
 
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.Bot
+import org.catcat.sereinfish.qqbot.universal.abstraction.layer.utils.UniversalId
 
 /**
  * 群对象
@@ -15,7 +16,7 @@ interface Group: Contact {
     /**
      * 群成员列表
      */
-    val members: Map<Long, Member>
+    val members: Map<UniversalId, Member>
 
     /**
      * 踢出指定群员
@@ -25,7 +26,7 @@ interface Group: Contact {
      * @param id 要踢出的群成员id
      * @param allowRejoinAfterKickout 是否允许再次申请加群
      */
-    suspend fun kick(id: Long, allowRejoinAfterKickout: Boolean = false): Boolean
+    suspend fun kick(id: UniversalId, allowRejoinAfterKickout: Boolean = false): Boolean
 
 
     /**
@@ -36,7 +37,7 @@ interface Group: Contact {
      * @param id 要禁言的群成员id
      * @param time 禁言时长，单位秒
      */
-    suspend fun mute(id: Long, time: Int): Boolean
+    suspend fun mute(id: UniversalId, time: Int): Boolean
 
     /**
      * 全体禁言状态
@@ -55,5 +56,5 @@ interface Group: Contact {
     /**
      * 设置指定群员的群管理状态
      */
-    suspend fun admin(id: Long, set: Boolean): Boolean
+    suspend fun admin(id: UniversalId, set: Boolean): Boolean
 }

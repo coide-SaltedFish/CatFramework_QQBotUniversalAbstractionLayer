@@ -7,6 +7,7 @@ import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.Me
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.MessageRouterBuilder
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.SimpleMessageRouterBuilder
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.impl.*
+import org.catcat.sereinfish.qqbot.universal.abstraction.layer.utils.UniversalId
 
 /**
  * 消息路由构建扩展
@@ -29,9 +30,9 @@ fun MessageRouterBuilder.space() = TextRouter(" ")
  * 可选路由
  */
 fun MessageRouterBuilder.optional(block: MessageRouterBuilder.() -> Unit) =
-    OptionalRoute(SimpleMessageRouterBuilder().apply(block).build())
+    OptionalRouter(SimpleMessageRouterBuilder().apply(block).build())
 
-fun MessageRouterBuilder.optional(router: MessageRouter) = OptionalRoute(router)
+fun MessageRouterBuilder.optional(router: MessageRouter) = OptionalRouter(router)
 
 /**
  * 正则路由
@@ -58,7 +59,7 @@ fun MessageRouterBuilder.or(vararg routers: MessageRouter) = OrRouter(routers.to
 /**
  * 匹配 at
  */
-fun MessageRouterBuilder.at(id: Long) = AtRouter(id)
+fun MessageRouterBuilder.at(id: UniversalId) = AtRouter(id)
 fun MessageRouterBuilder.at(user: User) = AtRouter(user.id)
 fun MessageRouterBuilder.at(bot: Bot) = AtRouter(bot.id)
 
@@ -66,9 +67,9 @@ fun MessageRouterBuilder.at(bot: Bot) = AtRouter(bot.id)
  * 参数路由
  */
 fun MessageRouterBuilder.parameter(key: String, block: MessageRouterBuilder.() -> Unit) =
-    ParameterRoute(key, SimpleMessageRouterBuilder().apply(block).build())
+    ParameterRouter(key, SimpleMessageRouterBuilder().apply(block).build())
 
-fun MessageRouterBuilder.parameter(key: String, router: MessageRouter) = ParameterRoute(key, router)
+fun MessageRouterBuilder.parameter(key: String, router: MessageRouter) = ParameterRouter(key, router)
 
 /**
  * 类型路由

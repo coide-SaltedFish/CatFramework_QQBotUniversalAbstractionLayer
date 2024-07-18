@@ -14,6 +14,7 @@ repositories {
 
 dependencies {
     implementation("org.sereinfish.catcat.frame:CatFrame:0.0.193")
+    implementation("com.google.code.gson:gson:2.10.1")
     implementation("org.slf4j:slf4j-api:2.0.12")
     testImplementation(kotlin("test"))
 }

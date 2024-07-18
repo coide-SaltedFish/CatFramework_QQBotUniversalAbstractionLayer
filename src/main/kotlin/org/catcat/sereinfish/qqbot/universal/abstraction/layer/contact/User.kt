@@ -10,4 +10,6 @@ interface User: Contact {
      * 昵称
      */
     val nickname: String
+
+    fun queryFaceImage(): ByteArray
 }

@@ -3,6 +3,7 @@ package org.catcat.sereinfish.qqbot.universal.abstraction.layer.contact
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.Bot
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.Message
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.MessageReceipt
+import org.catcat.sereinfish.qqbot.universal.abstraction.layer.utils.UniversalId
 
 /**
  * 联系人对象接口
@@ -18,7 +19,8 @@ interface Contact {
     /**
      * 联系人id，好友，群成员等为qq号，群为群号
      */
-    val id: Long
+//    val id: Long
+    val id: UniversalId
 
     /**
      * 名称

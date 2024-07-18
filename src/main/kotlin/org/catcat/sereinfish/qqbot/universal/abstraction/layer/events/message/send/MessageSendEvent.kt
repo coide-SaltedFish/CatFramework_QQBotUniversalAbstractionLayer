@@ -1,24 +1,25 @@
-package org.catcat.sereinfish.qqbot.universal.abstraction.layer.events.message
+package org.catcat.sereinfish.qqbot.universal.abstraction.layer.events.message.send
 
+import org.catcat.sereinfish.qqbot.universal.abstraction.layer.Bot
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.contact.Contact
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.contact.User
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.events.QQEvent
+import org.catcat.sereinfish.qqbot.universal.abstraction.layer.events.message.MessageEvent
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.Message
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.MessageChain
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.MessageReceipt
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.OnlineMessageChain
 
 /**
- * 消息事件
+ * 消息发送事件
  */
-interface MessageEvent: QQEvent {
-
+interface MessageSendEvent: QQEvent {
     /**
      * 消息发送者
      *
      * 好友消息是 Frined，群消息是 Member
      */
-    val sender: User
+    val sender: Bot
 
     /**
      * 消息目标
@@ -29,14 +30,9 @@ interface MessageEvent: QQEvent {
     val target: Contact
 
     /**
-     * 原始消息内容
-     */
-    val rawMessage: String
-
-    /**
      * 消息内容
      */
-    val message: OnlineMessageChain
+    val message: MessageChain
 
     /**
      * 向消息来源发送消息

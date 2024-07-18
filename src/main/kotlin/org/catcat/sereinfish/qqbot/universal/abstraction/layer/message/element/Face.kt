@@ -2,9 +2,10 @@ package org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.element
 
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.Message
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.MessageContent
+import org.catcat.sereinfish.qqbot.universal.abstraction.layer.utils.UniversalId
 
 interface Face: MessageContent {
-    val id: Int
+    val id: UniversalId
 
     override val content: String get() ="[Face:$id]"
 

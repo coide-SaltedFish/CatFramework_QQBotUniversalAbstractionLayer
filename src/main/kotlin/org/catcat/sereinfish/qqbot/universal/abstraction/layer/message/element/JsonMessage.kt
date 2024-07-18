@@ -2,23 +2,22 @@ package org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.element
 
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.Message
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.MessageContent
-import org.catcat.sereinfish.qqbot.universal.abstraction.layer.utils.UniversalId
 
-interface At: MessageContent {
-    val target: UniversalId
+interface JsonMessage: MessageContent {
+    val data: String
 
     override val content: String
-        get() = "[At:${target}]"
+        get() = "[Json:${data}]"
 
-    companion object: Message.Key<At> {
-        override val typeName: String = "at"
+    companion object: Message.Key<JsonMessage> {
+        override val typeName: String = "json"
     }
 
     override fun toLogString(): String {
-        return content
+        return "[Json]"
     }
 
     override fun <M : Message> getOrNull(key: Message.Key<M>): M? {
-        return if (key == At) this as M else null
+        return if (key == JsonMessage) this as M else null
     }
 }

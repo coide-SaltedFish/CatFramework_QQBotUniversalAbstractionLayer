@@ -2,6 +2,7 @@ package org.catcat.sereinfish.qqbot.universal.abstraction.layer.message
 
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.Bot
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.contact.Contact
+import org.catcat.sereinfish.qqbot.universal.abstraction.layer.utils.UniversalId
 
 /**
  * 消息回执
@@ -11,7 +12,7 @@ import org.catcat.sereinfish.qqbot.universal.abstraction.layer.contact.Contact
 interface MessageReceipt {
     val bot: Bot
     val message: Message
-    val messageId: Int
+    val messageId: UniversalId
     val target: Contact
 
     suspend fun recall(time: Long): Boolean
