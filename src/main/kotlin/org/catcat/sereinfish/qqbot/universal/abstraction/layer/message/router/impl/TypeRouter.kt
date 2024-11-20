@@ -1,9 +1,9 @@
 package org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.impl
 
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.Message
-import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.MessageContent
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.element.*
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.MessageRouter
+import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.MessageRouterContext
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.RouterContext
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.parser.MessageRouterEncode
 

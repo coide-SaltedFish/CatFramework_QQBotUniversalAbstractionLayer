@@ -2,6 +2,7 @@ package org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.i
 
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.element.PlantText
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.MessageRouter
+import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.MessageRouterContext
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.RouterContext
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.parser.MessageRouterEncode
 
@@ -54,18 +55,8 @@ class RegexRouter(
             true
         }else if (textMessage.startsWith(matchStr)){
             val str = textMessage.removePrefix(matchStr)
-            val pt = object : PlantText {
-                override val text: String = str
-                override fun encode(): Any {
-                    error("该元素为临时消息元素，无法完成序列化")
-                }
-            }
-            context.handledMessages.add(object : PlantText {
-                override val text: String = matchStr
-                override fun encode(): Any {
-                    error("该元素为临时消息元素，无法完成序列化")
-                }
-            })
+            val pt = context.bot.messageFactory().text(str)
+            context.handledMessages.add(context.bot.messageFactory().text(matchStr))
             context.waitHandleMessages.subList(0, i).clear()
             context.waitHandleMessages.insertElementAt(pt, 0)
             true
@@ -73,6 +64,6 @@ class RegexRouter(
     }
 
     override fun encode(): String {
-        return "[$target:$regex]"
+        return "[$target:\"$regex\"]"
     }
 }

@@ -1,6 +1,7 @@
 package org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.impl
 
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.MessageRouter
+import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.MessageRouterContext
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.RouterContext
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.parser.MessageRouterEncode
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.utils.tryMatch

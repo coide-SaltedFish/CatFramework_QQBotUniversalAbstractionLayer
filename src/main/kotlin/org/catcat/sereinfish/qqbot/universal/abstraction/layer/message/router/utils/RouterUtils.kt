@@ -1,6 +1,7 @@
 package org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.utils
 
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.MessageRouter
+import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.MessageRouterContext
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.RouterContext
 
 /**
@@ -16,7 +17,7 @@ fun MessageRouter.tryMatch(
     }
 }
 
-fun RouterContext.tryMatch(block: MessageRouterTryMatchDslFactory.() -> Boolean): Boolean {
+fun MessageRouterContext.tryMatch(block: MessageRouterTryMatchDslFactory.() -> Boolean): Boolean {
     val matchDslFactory = MessageRouterTryMatchDslFactory(this)
     return matchDslFactory.matchTry(block).also {
         if (it) matchDslFactory.marge()

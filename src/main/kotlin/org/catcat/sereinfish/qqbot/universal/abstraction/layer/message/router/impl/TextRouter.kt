@@ -1,7 +1,7 @@
 package org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.impl
 
-import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.element.PlantText
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.MessageRouter
+import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.MessageRouterContext
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.RouterContext
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.parser.MessageRouterEncode
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.utils.matchText
@@ -15,6 +15,7 @@ class TextRouter(
         override val target: String = "text"
 
         override fun decode(vararg params: Any?): TextRouter {
+            if (params.isEmpty()) error("构建文本路由元素失败，缺少文本参数：params is empty")
             val text = (params[0] as? String) ?: error("无法获取文本参数：$params")
             return TextRouter(text)
         }

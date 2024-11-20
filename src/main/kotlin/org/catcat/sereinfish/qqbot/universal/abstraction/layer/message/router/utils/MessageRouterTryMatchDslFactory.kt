@@ -2,6 +2,7 @@ package org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.u
 
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.Message
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.element.PlantText
+import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.MessageRouterContext
 import org.catcat.sereinfish.qqbot.universal.abstraction.layer.message.router.RouterContext
 
 /**
@@ -21,14 +22,20 @@ class MessageRouterTryMatchDslFactory(
         handledMessages.clear()
     }
 
-    val bot = parentsContext.event.bot
-    val event = parentsContext.event
+    val bot = parentsContext.bot
     val message = parentsContext.message
 
     /**
      * 弹出一个消息元素
      */
     fun pop(): Message = tryMatchContext.waitHandleMessages[index ++]
+
+    fun popLoop(block: (Message) -> Unit) {
+        while (index < tryMatchContext.waitHandleMessages.size) {
+            val element = pop()
+            block(element)
+        }
+    }
 
     /**
      * 弹出文本消息
